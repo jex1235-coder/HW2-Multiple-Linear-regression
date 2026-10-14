@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box}body{margin:0;background:transparent;color:#edf8f7;font-family:'DM Sans','Noto Sans TC',sans-serif}button{font:inherit;cursor:pointer}
+.tour{border:1px solid #2b5660;background:linear-gradient(130deg,#102b39,#0b1e2c 80%);border-radius:24px;padding:24px;min-height:570px;box-shadow:inset 0 1px rgba(255,255,255,.05)}
+.top{display:flex;justify-content:space-between;align-items:start;gap:14px}.top h2{font-size:25px;margin:4px 0 0;letter-spacing:-.04em}.eyebrow{color:#69dcca;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.count{padding:8px 12px;border:1px solid #3a7378;border-radius:999px;font-size:12px;color:#b5e7df;white-space:nowrap}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:20px 0 22px}.step{display:flex;gap:8px;align-items:center;text-align:left;padding:11px 9px;color:#a3c2c4;background:#112c38;border:1px solid #2b4b55;border-radius:13px;transition:.22s}.step:hover{transform:translateY(-2px);border-color:#6cdbce;color:#fff}.step.active{background:linear-gradient(130deg,#177a7a,#1b8c7e);border-color:#76e8d4;color:#fff;box-shadow:0 7px 20px rgba(39,216,192,.2)}.step b{font-size:16px}.step small{display:block;font-size:11px;font-weight:700;line-height:1.25}
+.body{display:grid;grid-template-columns:1.08fr 1fr;gap:24px;align-items:stretch;min-height:330px}.copy{padding:6px 4px;animation:rise .35s ease}.number{color:#f0b971;font-size:12px;font-weight:800;letter-spacing:.15em}.copy h3{font-size:clamp(22px,3vw,34px);line-height:1.2;letter-spacing:-.04em;margin:12px 0}.copy p{color:#bdd4d6;font-size:15px;line-height:1.7;margin:0 0 16px}.points{padding:0;margin:0;list-style:none;display:grid;gap:8px}.points li{display:flex;gap:10px;color:#e2f0ee;font-size:13px;line-height:1.45}.points li:before{content:'✓';color:#60dcc4;font-weight:900}.statrow{display:flex;gap:10px;margin-top:19px;flex-wrap:wrap}.stat{padding:10px 14px;border:1px solid #30545e;border-radius:12px;background:#143543;min-width:116px}.stat b{display:block;font-size:19px;line-height:1.2;color:#fff}.stat small{display:block;color:#a5c5c7;font-size:10px;margin-top:5px}.visual{border:1px solid #315361;background:#0d202d;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}.visual img{width:100%;height:278px;object-fit:contain;padding:10px;background:#f8fafb;animation:fade .4s ease}.caption{font-size:11px;line-height:1.4;padding:9px 12px;color:#b5d0d0;min-height:39px}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:17px}.track{height:5px;border-radius:99px;background:#234753;flex:1;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#4bdbca,#edb56f);width:16.66%;transition:width .35s}.controls{display:flex;gap:7px}.controls button{border:1px solid #41767a;background:#143b47;color:#e9faf7;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:800;transition:.2s}.controls button:hover{background:#206a70;transform:translateY(-2px)}.controls button:disabled{opacity:.4;cursor:not-allowed;transform:none}.controls .next{background:linear-gradient(115deg,#1a9c94,#3fd1b0);color:#062722;border-color:#73e4cf}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes fade{from{opacity:.3;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}
+@media(max-width:800px){.tour{padding:14px;min-height:0}.top h2{font-size:20px}.steps{grid-template-columns:repeat(3,1fr);margin:13px 0}.step{padding:8px}.body{grid-template-columns:1fr;gap:14px}.visual img{height:210px}.copy h3{font-size:24px}.statrow{margin-top:12px}.footer{margin-top:12px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<section class="tour" aria-label="CRISP-DM 六階段互動導讀">
+  <header class="top"><div><div class="eyebrow">Guided research journey</div><h2>六個階段，讀懂這份報告</h2></div><div class="count" id="count">01 / 06</div></header>
+  <nav class="steps" id="steps" aria-label="選擇導讀階段"></nav>
+  <div class="body" aria-live="polite">
+    <div class="copy" id="copy"></div>
+    <div class="visual"><img id="image" alt=""><div class="caption" id="caption"></div></div>
+  </div>
+  <footer class="footer"><div class="track"><div class="fill" id="fill"></div></div><div class="controls"><button id="prev" type="button">← 上一步</button><button class="next" id="next" type="button">下一步 →</button></div></footer>
+</section>
+<script>
+const phases=[
+ {icon:'⌂',short:'研究問題',tag:'01 / BUSINESS UNDERSTANDING',title:'先問清楚：我們在估計什麼？',description:'使用同一個 10 分鐘時段的室內環境、氣象與照明資料，估計當期家電耗電。這是同期估計，不能當作尚未發生時段的預報。',points:['目標為 Appliances，單位 Wh','可解釋的多元線性回歸是研究主軸','討論模型能幫助能源管理的範圍與限制'],stats:[['10 min','每筆量測間隔'],['Wh','預測目標單位']],image:'{{IMG_0}}',caption:'原研究圖：家電耗電隨時間變化'},
+ {icon:'◫',short:'認識資料',tag:'02 / DATA UNDERSTANDING',title:'先看分布，再談模型分數。',description:'資料包含 19,735 筆、29 個欄位。目標耗電呈右偏長尾；單一環境變數與目標的相關普遍不強，感測器之間卻常高度相關。',points:['排除 date 與 Target 後有 27 個數值輸入','rv1、rv2 在資料中逐筆完全相同','高耗電尖峰是真實重要案例，不先刪除'],stats:[['19,735','原始資料筆數'],['27','數值輸入欄位']],image:'{{IMG_1}}',caption:'原研究圖：Appliances 目標分布'},
+ {icon:'⌁',short:'資料準備',tag:'03 / DATA PREPARATION',title:'時間順序，是評估可信度的起點。',description:'原研究先固定時間邊界，再只用 Training 擬合標準化器、選特徵與模型。Validation 用於比較設定；Test 保留到最後。',points:['Training 13,814；Validation 2,960；Test 2,961','排除已知隨機控制欄 rv1、rv2，保留 25 個候選','Lag 只能引用先前已觀測的真實耗電'],stats:[['70 / 15 / 15','依時間切分'],['25','主要候選特徵']],image:'{{IMG_2}}',caption:'原研究圖：依時間切分資料'},
+ {icon:'◇',short:'模型選擇',tag:'04 / MODELING',title:'五種篩選法，找到可比較的模型。',description:'在 Training 比較五種特徵選擇、14／20／25 個特徵與三種回歸器，使用 Validation RMSE 選定主模型。',points:['五種方法：SelectKBest、RFE、SFS、Lasso、Permutation','45 筆設定紀錄含 k=25 的等價重複','主模型是 Permutation 選 14 特徵的 LinearRegression'],stats:[['45','Validation 設定'],['84.71 Wh','最佳 Validation RMSE']],image:'{{IMG_3}}',caption:'原研究圖：Validation RMSE 前 16 組'},
+ {icon:'◎',short:'檢驗結果',tag:'05 / EVALUATION',title:'好看的總平均，可能藏住尖峰失準。',description:'主模型 A 的 Test RMSE 為 89.20 Wh；另在對齊資料上，環境 25 特徵模型為 88.25 Wh，加入真實 Lag 的 ARX 對照為 61.40 Wh。但傳統 95% 預測區間對高耗電尖峰仍嚴重不足。',points:['五項假設：線性、獨立、等變異、常態、共線性','ARX 的 Test R² 是 0.5435，並非原先 45 組勝出者','>400 Wh 尖峰的 ARX PI 涵蓋率僅 24.64%'],stats:[['61.40 Wh','ARX Test RMSE'],['24.64%','尖峰 PI 涵蓋率']],image:'{{IMG_4}}',caption:'原研究圖：不同負荷區間的 PI 涵蓋率'},
+ {icon:'↗',short:'部署思考',tag:'06 / DEPLOYMENT',title:'能算出數字，也要知道何時能用。',description:'原研究將鎖定模型存成可載入的 Pipeline，示範六筆真實 Test 個案。此互動平台讓讀者重跑流程，並檢視區間與適用前提。',points:['ARX 上線前必須能取得前 1–3 筆真實用電','係數貢獻不是因果效果','傳統 PI 未校準，不適合單獨做安全警報'],stats:[['2','保存的 Pipeline'],['6','示範個案']],image:'{{IMG_5}}',caption:'原研究圖：六筆示範點預測'}
+];
+let current=0;
+function render(){
+ const p=phases[current];
+ document.getElementById('steps').innerHTML=phases.map((s,i)=>`<button class="step ${i===current?'active':''}" type="button" data-i="${i}" aria-current="${i===current?'step':'false'}"><b>${s.icon}</b><small>${s.short}</small></button>`).join('');
+ document.querySelectorAll('.step').forEach(b=>b.addEventListener('click',()=>{current=Number(b.dataset.i);render()}));
+ const copy=document.getElementById('copy');copy.style.animation='none';void copy.offsetWidth;copy.style.animation='';
+ copy.innerHTML=`<div class="number">${p.tag}</div><h3>${p.title}</h3><p>${p.description}</p><ul class="points">${p.points.map(x=>`<li>${x}</li>`).join('')}</ul><div class="statrow">${p.stats.map(x=>`<div class="stat"><b>${x[0]}</b><small>${x[1]}</small></div>`).join('')}</div>`;
+ const img=document.getElementById('image');img.src=p.image;img.alt=p.caption;document.getElementById('caption').textContent=p.caption;
+ document.getElementById('count').textContent=String(current+1).padStart(2,'0')+' / 06';document.getElementById('fill').style.width=((current+1)/phases.length*100)+'%';
+ document.getElementById('prev').disabled=current===0;document.getElementById('next').textContent=current===phases.length-1?'回到第一步 ↺':'下一步 →';
+}
+document.getElementById('prev').addEventListener('click',()=>{if(current>0){current--;render()}});
+document.getElementById('next').addEventListener('click',()=>{current=(current+1)%phases.length;render()});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){current=(current+1)%phases.length;render()}if(e.key==='ArrowLeft'&&current>0){current--;render()}});
+render();
+</script>
+</body></html>

@@ -2,6 +2,8 @@
 
 家用電器能源分析｜Streamlit 互動平台
 
+[GitHub 專案](https://github.com/jex1235-coder/HW2-Multiple-Linear-regression) · [自動測試](https://github.com/jex1235-coder/HW2-Multiple-Linear-regression/actions/workflows/tests.yml)
+
 這個網站是 [正式報告](5115056030_hw2_完整報告.pdf) 的互動閱讀入口。首頁有動畫式 CRISP-DM 六階段導讀、重點數字與原研究圖表；下方提供圖示化控制台與五個分析頁面。讀者可使用預設 `KAG_energydata_complete.csv`，或上傳自己的 CSV，重新執行特徵選擇、線性回歸、VIF、殘差檢查與傳統 95% CI／PI，也可編輯單筆輸入做情境預測。網站將原研究的固定成果與訪客當次分析結果分開標示。
 
 ## 專案架構
@@ -61,6 +63,8 @@ streamlit run app.py
 於本資料夾執行 `python -m pytest tests/test_app.py -q`。測試涵蓋預設主模型與 ARX 對照數字、五種特徵選擇、自訂資料隨機切分、Ridge、Lag 限制、保留欄名防護、Streamlit 頁面渲染與單筆預測。若要重跑實際瀏覽器測試，先安裝 `requirements-dev.txt`、啟動 `streamlit run app.py`，再執行 `python -m pytest tests/test_browser.py -q`；目前測試會使用 Windows 的 Google Chrome，檢查動畫導讀、手機寬度、實際訓練及頁籤在互動後是否保持可見。線上 Demo 與 Keep-Alive 仍須部署後才可實測；不能以本地 HTTP 成功替代線上驗證。
 
 ## 部署到 Streamlit Community Cloud
+
+本儲存庫的部署設定：Repository `jex1235-coder/HW2-Multiple-Linear-regression`、Branch `main`、Main file path `app.py`；Advanced settings 選 Python `3.12`。到 [Streamlit 部署頁](https://share.streamlit.io/deploy) 登入 GitHub 後填入這些設定。
 
 1. 將本資料夾內容推送到你有管理權限的 GitHub repository。保留 `app.py`、`requirements.txt`、預設 CSV、正式報告 PDF 及各階段圖片。如果程式檔放在 repository 的子資料夾，部署時要選對 entrypoint 路徑。
 2. 到 [Streamlit Community Cloud](https://share.streamlit.io/) 建立 App，選 repository、branch 與 `app.py`。上線後取得 `https://你的名稱.streamlit.app/`。

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRISP-DM Regression & Feature Selection Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Noto+Serif+TC:wght@500;600;700;900&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="model_data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    html { font-size: 19px; }
+    body {
+      font-family: 'Philosopher', 'Noto Serif TC', serif;
+      background: radial-gradient(circle at 10% 10%, #0d223d 0%, #050f1c 50%, #02060d 100%);
+      background-attachment: fixed;
+      color: #e2e8f0;
+      font-size: 1.1rem;
+      line-height: 1.75;
+    }
+    h1, h2, h3, h4, .brand-title {
+      font-family: 'Cinzel Decorative', 'Noto Serif TC', serif;
+      color: #f8fafc !important;
+      text-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+    }
+    .studio-card {
+      background: rgba(12, 35, 64, 0.78);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.55);
+      color: #f1f5f9;
+    }
+    .kpi-val { font-family: 'Cinzel', serif; font-size: 34px; font-weight: 800; color: #fff; }
+  </style>
+</head>
+<body>
+<div id="app" class="container py-4">
+  <div class="studio-card p-4 mb-4">
+    <h1 class="brand-title fs-3 mb-2">✨ CRISP-DM Regression Studio</h1>
+    <p class="text-secondary mb-0">Feature Selection & Parsimony Dashboard Template</p>
+  </div>
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="studio-card p-4">
+        <h3 class="fs-5 text-info mb-3">1. 選擇演算法</h3>
+        <div class="d-flex flex-column gap-2">
+          <button v-for="a in algos" :key="a" class="btn btn-outline-info text-start" :class="{ active: currentAlgo === a }" @click="selectAlgo(a)">
+            {{ a }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="studio-card p-4">
+        <h3 class="fs-5 text-info mb-3">2. 模型指標</h3>
+        <div class="kpi-val">Test RMSE: ${{ activeModel.rmse ? activeModel.rmse.toFixed(2) : '0' }}</div>
+        <div class="text-info">Test R²: {{ activeModel.r2 ? activeModel.r2.toFixed(4) : '0' }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const { createApp } = Vue;
+  createApp({
+    data() {
+      return {
+        modelData: window.MODEL_DATA || {},
+        currentAlgo: 'Lasso',
+        currentK: 2,
+        algos: ['Lasso', 'Forward SFS', 'RFE', 'ElasticNet', 'Exhaustive']
+      };
+    },
+    computed: {
+      activeModel() {
+        const list = this.modelData[this.currentAlgo] || [];
+        return list.find(m => m.k === this.currentK) || list[0] || {};
+      }
+    },
+    methods: {
+      selectAlgo(a) { this.currentAlgo = a; }
+    }
+  }).mount('#app');
+</script>
+</body>
+</html>

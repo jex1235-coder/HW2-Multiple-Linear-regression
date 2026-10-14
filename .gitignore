@@ -1,0 +1,24 @@
+# Local caches and Python environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.coverage
+htmlcov/
+
+# Credentials stay local
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+*.pem
+*.key
+
+# Duplicate backups and temporary QA artifacts
+BackUp/
+audit_*.png
+preview*.png
+tmp/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,42 @@
+{
+  "source_csv": "KAG_energydata_complete.csv",
+  "train_rows": 13814,
+  "validation_rows": 2960,
+  "test_rows": 2961,
+  "standard_scaler_fit_on": "Train only",
+  "feature_count_original": 27,
+  "feature_count_prepared": 25,
+  "selected_feature_counts": [
+    14,
+    20,
+    25
+  ],
+  "feature_selection_methods": [
+    "SelectKBest",
+    "RFE",
+    "SFS",
+    "Lasso",
+    "PermutationImportance"
+  ],
+  "model_types": [
+    "LinearRegression",
+    "Ridge",
+    "Lasso"
+  ],
+  "ridge_alpha": 10.0,
+  "lasso_alpha": 0.1,
+  "lasso_selector_alpha": 0.1,
+  "time_series_cv_sfs_folds": 3,
+  "time_series_cv_sfs_scaling": "StandardScaler is fitted within every training CV fold via Pipeline",
+  "permutation_importance_inner_train_pct": 80,
+  "permutation_importance_repeats": 7,
+  "validation_configurations": 45,
+  "run_seconds": 10.47,
+  "final_test_criterion": "Validation RMSE minimum (NO selection based on Test)",
+  "ar_alignment": "All lag features shifted before date slicing, so use t-1,t-2,t-3 only",
+  "ar_train_rows": 13811,
+  "ar_validation_rows": 2960,
+  "ar_test_rows": 2961,
+  "ar_experiment": "Prespecified 25 vs 28-feature LinearRegression for both Validation/Test",
+  "notes": "The original task is same-interval estimation; AR assumes historical appliances measurements are available."
+}

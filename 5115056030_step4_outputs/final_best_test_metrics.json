@@ -1,0 +1,40 @@
+{
+  "selection_from": "Validation RMSE only",
+  "selector": "PermutationImportance",
+  "k": 14,
+  "model": "LinearRegression",
+  "feature_names": [
+    "lights",
+    "RH_1",
+    "T2",
+    "RH_2",
+    "T3",
+    "RH_3",
+    "T6",
+    "RH_6",
+    "T7",
+    "T8",
+    "RH_8",
+    "T_out",
+    "RH_out",
+    "Tdewpoint"
+  ],
+  "validation_metrics": {
+    "N": 2960,
+    "p": 14,
+    "MAE": 50.87722527536128,
+    "MSE": 7175.314128348613,
+    "RMSE": 84.70722595120569,
+    "R2": 0.15664424255835052,
+    "Adjusted_R2": 0.1526350810628725
+  },
+  "test_metrics": {
+    "N": 2961,
+    "p": 14,
+    "MAE": 60.16737191243113,
+    "MSE": 7955.902059395339,
+    "RMSE": 89.19586346571987,
+    "R2": 0.036578325048747806,
+    "Adjusted_R2": 0.03199994641693604
+  }
+}

@@ -1,0 +1,4 @@
+﻿model,feature_count,max_VIF,median_VIF,n_VIF_gt_5,n_VIF_gt_10,worst_feature
+A_best14,14,382.454575,8.071700089,11,5,T_out
+Env25,25,404.8362169,9.990062682,19,12,T_out
+B_lag28,28,405.344118,8.950589742,19,13,T_out
