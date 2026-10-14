@@ -75,7 +75,7 @@ def test_real_browser_training_and_tab_persistence(browser):
     page.get_by_role("button", name="⚡ 執行完整分析").click()
     page.get_by_text("本次分析完成").wait_for(timeout=90000)
     page.get_by_role("tab", name="◎ 評估 · 95% 區間").click()
-    assert page.locator(".js-plotly-plot").count() >= 1
+    page.locator(".js-plotly-plot:visible").first.wait_for(state="visible", timeout=60000)
     window_slider = page.get_by_role("slider", name="顯示連續測試點數（預設 432；原資料為 72 小時）")
     window_slider.focus()
     window_slider.press("ArrowRight")
@@ -87,9 +87,9 @@ def test_real_browser_training_and_tab_persistence(browser):
     assert len(downloaded) == 2961
     expect(page.get_by_role("tab", name="◇ 特徵選擇 · VIF")).to_have_count(1, timeout=30000)
     page.get_by_role("tab", name="◇ 特徵選擇 · VIF").click()
-    assert page.get_by_text("VIF 使用 Training", exact=False).is_visible()
+    expect(page.get_by_text("VIF 使用 Training", exact=False)).to_be_visible(timeout=30000)
     page.get_by_role("tab", name="⌁ 五項假設").click()
-    assert page.get_by_text("Train Durbin–Watson", exact=True).is_visible()
+    expect(page.get_by_text("Train Durbin–Watson", exact=True)).to_be_visible(timeout=30000)
     page.get_by_role("tab", name="↗ 單筆預測實驗室").click()
     page.get_by_role("button", name="⚡ 估計這筆樣本").click()
     page.get_by_text("LinearRegression 點預測").wait_for(timeout=30000)
