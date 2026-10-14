@@ -68,14 +68,14 @@ streamlit run app.py
 
 1. 將本資料夾內容推送到你有管理權限的 GitHub repository。保留 `app.py`、`requirements.txt`、預設 CSV、正式報告 PDF 及各階段圖片。如果程式檔放在 repository 的子資料夾，部署時要選對 entrypoint 路徑。
 2. 到 [Streamlit Community Cloud](https://share.streamlit.io/) 建立 App，選 repository、branch 與 `app.py`。上線後取得 `https://你的名稱.streamlit.app/`。
-3. 將該網址填到本段 Demo 欄，並在 GitHub repository 的 **Settings → Secrets and variables → Actions → New repository secret** 建立 `STREAMLIT_APP_URL`，值為完整的 `https://…streamlit.app/` 網址。排程瀏覽器沒有登入狀態，因此 App 需允許它直接瀏覽。
+3. 喚醒腳本已預設使用下方公開 Demo 網址，不需建立 Secret 即可執行。若日後換網址，可在 GitHub repository 的 **Settings → Secrets and variables → Actions → New repository secret** 建立 `STREAMLIT_APP_URL` 覆寫它，值為完整的 `https://…streamlit.app/` 網址。排程瀏覽器沒有登入狀態，因此 App 需允許它直接瀏覽。
 4. 在 GitHub **Actions → Visit Streamlit app → Run workflow** 手動測試一次；檢查紀錄顯示 App 已渲染、觀測到 WebSocket。
 
-**線上 Demo：**部署後填入你的 Streamlit App 網址（目前尚未部署）。
+**線上 Demo：**[開啟互動式多元線性回歸平台](https://jex1235-coder-hw2-multiple-linear-regression-app-0qudfk.streamlit.app/)。
 
 ## GitHub Actions Keep-Alive
 
-`.github/workflows/keep_alive.yml` 每 8 小時（UTC 的 00:17、08:17、16:17）用 headless Chromium 訪問 App，等待初始載入；若出現 **“Yes, get this app back up!”** 就點擊，再停留 10 秒並檢查 Streamlit 頁面及 WebSocket。也可用 `workflow_dispatch` 手動執行。此工作流程會訪問網址，但不能保證雲端服務永遠不休眠：GitHub 的排程可能延遲或漏跑；公開 repository 60 天沒有活動時，排程可能被停用；Streamlit Community Cloud 仍依平台規則管理休眠。請以 Actions 執行紀錄和實際 App 可用性為準。
+`.github/workflows/keep_alive.yml` 每 4 小時（台灣時間 00:17、04:17、08:17、12:17、16:17、20:17）用 headless Chromium 訪問 App，等待初始載入；若出現 **“Yes, get this app back up!”** 就點擊，再停留 10 秒並檢查 Streamlit 頁面、WebSocket 及應用錯誤。也可用 `workflow_dispatch` 手動執行；修改此工作流程並推送 `main` 時會立即驗證。此工作流程會訪問網址，但不能保證雲端服務永遠不休眠：GitHub 的排程可能延遲或漏跑；公開 repository 60 天沒有活動時，排程可能被停用；Streamlit Community Cloud 仍依平台規則管理休眠。請以 Actions 執行紀錄和實際 App 可用性為準。
 
 相關平台說明：[Streamlit App 休眠與喚醒](https://docs.streamlit.io/deploy/streamlit-community-cloud/manage-your-app#app-hibernation)、[GitHub 排程事件](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)。
 

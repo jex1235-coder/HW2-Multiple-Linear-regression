@@ -3,8 +3,11 @@ name: Visit Streamlit app
 on:
   schedule:
     # UTC; offset from the top of the hour to reduce schedule congestion.
-    - cron: '17 */8 * * *'
+    - cron: '17 */4 * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/keep_alive.yml']
 
 permissions:
   contents: read
@@ -14,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      APP_URL: ${{ secrets.STREAMLIT_APP_URL }}
+      APP_URL: ${{ secrets.STREAMLIT_APP_URL || 'https://jex1235-coder-hw2-multiple-linear-regression-app-0qudfk.streamlit.app/' }}
     steps:
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -61,6 +64,8 @@ jobs:
               # Keep the browser session alive long enough for Streamlit's
               # WebSocket handshake and initial app render.
               page.wait_for_timeout(10000)
+              if page.locator('[data-testid="stException"]').count():
+                  raise SystemExit("Streamlit rendered an application exception")
               if not sockets:
                   raise SystemExit("App page rendered, but no WebSocket connection was observed")
               print(f"App rendered; observed {len(sockets)} WebSocket connection(s)")
