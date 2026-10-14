@@ -605,7 +605,7 @@ with tab_eval:
             "pi_lower": result["intervals"]["obs_ci_lower"].to_numpy(),
             "pi_upper": result["intervals"]["obs_ci_upper"].to_numpy(),
         })
-        st.download_button("⬇ 下載本次 Test 預測與區間 CSV", download.to_csv(index=False).encode("utf-8-sig"), file_name="interactive_test_predictions.csv", mime="text/csv")
+        st.download_button("⬇ 下載本次 Test 預測與區間 CSV", download.to_csv(index=False).encode("utf-8-sig"), file_name="interactive_test_predictions.csv", mime="text/csv", on_click="ignore")
         st.warning("傳統 OLS 區間依賴模型形式、等變異、殘差結構等假設。即使整體涵蓋率接近 95%，也不能推論每個負荷區間都已校準。")
     if uploaded is None:
         with st.expander("原研究的 72 小時圖與分負荷涵蓋率"):

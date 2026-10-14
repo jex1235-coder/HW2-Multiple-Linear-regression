@@ -60,7 +60,9 @@ streamlit run app.py
 
 ## 測試與審核
 
-於本資料夾執行 `python -m pytest tests/test_app.py -q`。測試涵蓋預設主模型與 ARX 對照數字、五種特徵選擇、自訂資料隨機切分、Ridge、Lag 限制、保留欄名防護、Streamlit 頁面渲染與單筆預測。若要重跑實際瀏覽器測試，先安裝 `requirements-dev.txt`、啟動 `streamlit run app.py`，再執行 `python -m pytest tests/test_browser.py -q`；目前測試會使用 Windows 的 Google Chrome，檢查動畫導讀、手機寬度、實際訓練及頁籤在互動後是否保持可見。線上 Demo 與 Keep-Alive 仍須部署後才可實測；不能以本地 HTTP 成功替代線上驗證。
+於本資料夾執行 `python -m pytest tests/test_app.py -q`。測試涵蓋預設主模型與 ARX 對照數字、五種特徵選擇、自訂資料隨機切分、Ridge、Lag 限制、保留欄名防護、Streamlit 頁面渲染與單筆預測。若要重跑實際瀏覽器測試，先安裝 `requirements-dev.txt`、啟動 `streamlit run app.py`，再執行 `python -m pytest tests/test_browser.py -q`；目前測試會使用 Windows 的 Google Chrome，檢查動畫導讀、手機寬度、實際訓練、結果下載及頁籤在互動後是否保持可見。
+
+線上版已實測預設資料訓練、單筆預測、自訂 CSV 上傳與手機動畫導讀。瀏覽器測試支援 Community Cloud 的內嵌框架；在 PowerShell 設定 `$env:STREAMLIT_TEST_URL='https://jex1235-coder-hw2-multiple-linear-regression-app-0qudfk.streamlit.app/'` 後執行同一組測試即可驗證線上版。[GitHub Keep-Alive 實測成功紀錄](https://github.com/jex1235-coder/HW2-Multiple-Linear-regression/actions/runs/38625003139)確認網站渲染及 WebSocket 連線；這是當次可用性驗證，不代表永久不休眠，也不代表已實際觸發休眠頁的喚醒分支。
 
 ## 部署到 Streamlit Community Cloud
 

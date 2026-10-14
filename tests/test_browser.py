@@ -12,7 +12,7 @@ import pandas as pd
 import pytest
 
 pytest.importorskip("playwright")
-from playwright.sync_api import sync_playwright  # noqa: E402
+from playwright.sync_api import sync_playwright, expect  # noqa: E402
 
 
 URL = os.environ.get("STREAMLIT_TEST_URL", "http://127.0.0.1:8501/")
@@ -85,6 +85,7 @@ def test_real_browser_training_and_tab_persistence(browser):
         page.get_by_role("button", name="⬇ 下載本次 Test 預測與區間 CSV").click()
     downloaded = pd.read_csv(download.value.path())
     assert len(downloaded) == 2961
+    expect(page.get_by_role("tab", name="◇ 特徵選擇 · VIF")).to_have_count(1, timeout=30000)
     page.get_by_role("tab", name="◇ 特徵選擇 · VIF").click()
     assert page.get_by_text("VIF 使用 Training", exact=False).is_visible()
     page.get_by_role("tab", name="⌁ 五項假設").click()
