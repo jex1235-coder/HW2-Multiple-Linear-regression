@@ -32,6 +32,7 @@ jobs:
           python - <<'PY'
           import os
           import re
+          import time
           from urllib.parse import urlparse
           from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
@@ -50,21 +51,30 @@ jobs:
               page.goto(url, wait_until="domcontentloaded", timeout=60000)
               page.wait_for_timeout(10000)
 
-              wake = page.get_by_text(re.compile(r"Yes, get this app back up!?", re.I)).first
-              if wake.count() and wake.is_visible():
-                  print("Sleeping page found; clicking wake control")
-                  wake.click()
-                  page.wait_for_timeout(10000)
-
-              try:
-                  page.locator('[data-testid="stApp"]').wait_for(state="visible", timeout=90000)
-              except PlaywrightTimeout as exc:
-                  raise SystemExit(f"Streamlit app did not become visible: {page.url}") from exc
+              # Community Cloud wraps the app in an iframe; localhost does not.
+              app = None
+              deadline = time.monotonic() + 150
+              while time.monotonic() < deadline and app is None:
+                  for frame in page.frames:
+                      if frame.is_detached():
+                          continue
+                      wake = frame.get_by_text(re.compile(r"Yes, get this app back up!?", re.I)).first
+                      if wake.count() and wake.is_visible():
+                          print("Sleeping page found; clicking wake control")
+                          wake.click(timeout=10000)
+                      if frame.locator('[data-testid="stApp"]').is_visible():
+                          app = frame
+                          break
+                  if app is None:
+                      page.wait_for_timeout(2000)
+              if app is None:
+                  raise SystemExit(f"Streamlit app did not become visible: {page.url}")
+              app.get_by_role("button", name="⚡ 執行完整分析").wait_for(timeout=60000)
 
               # Keep the browser session alive long enough for Streamlit's
               # WebSocket handshake and initial app render.
               page.wait_for_timeout(10000)
-              if page.locator('[data-testid="stException"]').count():
+              if app.locator('[data-testid="stException"]').count():
                   raise SystemExit("Streamlit rendered an application exception")
               if not sockets:
                   raise SystemExit("App page rendered, but no WebSocket connection was observed")

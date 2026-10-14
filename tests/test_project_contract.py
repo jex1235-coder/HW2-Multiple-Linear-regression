@@ -29,4 +29,5 @@ def test_keep_alive_schedule_and_embedded_python_are_valid():
     ast.parse(textwrap.dedent(script))
     assert "STREAMLIT_APP_URL" in text
     assert 'page.on("websocket"' in script
-    assert "wake.click()" in script
+    assert "wake.click(" in script
+    assert "for frame in page.frames" in script
