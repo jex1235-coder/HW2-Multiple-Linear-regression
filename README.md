@@ -1,4 +1,5 @@
 # HW2-Multiple-Linear-regression
+<img width="704" height="859" alt="image" src="https://github.com/user-attachments/assets/c19815d7-5f7d-48ae-9675-09070b84a96b" />
 
 家用電器能源分析｜Streamlit 互動平台
 
