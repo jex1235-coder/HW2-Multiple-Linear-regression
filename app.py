@@ -367,7 +367,7 @@ with st.expander("📚 開啟報告與研究資料", expanded=False):
     st.markdown("合併 PDF 第 1–17 頁是 CRISP-DM 報告，第 18–50 頁是現有 GPT 對話匯出；**不能據此保證已涵蓋本專案全部對話**，繳交前仍須由本人核對並補上完整原始對話。研究筆記保留階段歷史，早期『尚未完成』敘述不代表最終狀態。")
     st.markdown("<div class='read-path'><span>① 先讀摘要與研究問題</span><span>② 對照六階段圖表</span><span>③ 檢查五項假設與 PI 限制</span><span>④ 核對對話匯出與研究來源</span></div>", unsafe_allow_html=True)
     if REPORT_PDF.is_file():
-        st.download_button("⬇ 下載目前合併報告 PDF（對話完整性待核對）", REPORT_PDF.read_bytes(), file_name=REPORT_PDF.name, mime="application/pdf", type="primary")
+        st.download_button("⬇ 下載目前合併報告 PDF", REPORT_PDF.read_bytes(), file_name=REPORT_PDF.name, mime="application/pdf", type="primary")
     documents = [
         ("下載正式報告 Markdown", "5115056030_hw2_report.md"),
         ("下載 NotebookLM 摘要", "5115056030_NotebookLM_研究摘要.md"),
